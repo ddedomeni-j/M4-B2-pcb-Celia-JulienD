@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Données (formatrice fournit l'archive PCB jeudi)
+data/pcb_defect_sample/
+data/*.zip
+data/*.png
+data/*.jpg
+!data/.gitkeep
+
+# Modèles trop lourds pour Git
+models/*.pt
+models/*.pth
+models/*.joblib
+!models/.gitkeep
+
+# Cache HuggingFace
+.cache/
+~/.cache/huggingface/

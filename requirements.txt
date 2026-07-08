@@ -1,0 +1,27 @@
+# M4-B2 — requirements
+# Python 3.11+
+#
+# ⚠️ PyTorch CPU pèse ~200 Mo, à installer une fois.
+# Pour installer la version CPU uniquement (plus rapide, suffisant pour le brief) :
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+torch==2.5.0
+torchvision==0.20.0
+
+# Pour option C — zero-shot CLIP
+transformers==4.46.0
+
+# Data / images
+Pillow==11.0.0
+numpy==1.26.4
+pandas==2.2.2
+
+# Évaluation
+scikit-learn==1.5.1
+
+# Visualisation
+matplotlib==3.9.2
+
+# Notebook
+jupyter==1.1.1
+ipykernel==6.29.5
