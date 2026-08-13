@@ -60,12 +60,26 @@ def get_default_transforms(image_size: int = 64):
         transforms.ToTensor(),  # → [0, 1]
     ])
 
+def get_transfer_transforms(image_size: int = 224):
+    """Transforms pour ResNet — resize 224×224, 3 canaux, normalisation ImageNet.
+
+    Fourni : ce n'est pas l'objet de l'exercice.
+    """
+    return transforms.Compose(
+        [
+            transforms.Resize((image_size, image_size)),
+            transforms.Grayscale(num_output_channels=3),  # 1→3 canaux
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ]
+    )
 
 def get_dataloaders(
     root: Path,
     batch_size: int = 32,
     val_split: float = 0.15,
     test_split: float = 0.15,
+    image_size: int = 64,
     seed: int = 42,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     """Returns (train_loader, val_loader, test_loader).
@@ -76,7 +90,11 @@ def get_dataloaders(
     `torch.manual_seed(seed)` avant l'entraînement pour que la comparaison
     entre binômes soit reproductible.
     """
-    dataset = PCBDefectDataset(root, transform=get_default_transforms())
+    if(image_size == 64):
+        dataset = PCBDefectDataset(root, transform=get_default_transforms())
+    else:
+        dataset = PCBDefectDataset(root, transform=get_transfer_transforms())
+    print(f"Dataset loaded: {len(dataset)} images, {len(CLASSES)} classes.")
 
     n_total = len(dataset)
     n_val = int(n_total * val_split)
