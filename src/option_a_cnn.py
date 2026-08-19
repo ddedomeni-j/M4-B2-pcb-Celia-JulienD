@@ -20,19 +20,31 @@ class SimpleCNN(nn.Module):
 
     def __init__(self, n_classes: int = len(CLASSES)):
         super().__init__()
-        # TODO — compléter l'architecture
-        # Exemple :
-        # self.conv1 = nn.Conv2d(1, 16, kernel_size=3, padding=1)
-        # self.pool = nn.MaxPool2d(2, 2)
-        # self.conv2 = nn.Conv2d(16, 32, kernel_size=3, padding=1)
-        # ...
-        # self.fc1 = nn.Linear(?, 128)
-        # self.fc2 = nn.Linear(128, n_classes)
-        raise NotImplementedError("TODO — implémenter l'architecture CNN")
+        # Bloc 1 : 1×64×64 → 16×32×32
+        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, padding=1)
+        self.pool1 = nn.MaxPool2d(2, 2)
+        # Bloc 2 : 16×32×32 → 32×16×16
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, padding=1)
+        self.pool2 = nn.MaxPool2d(2, 2)
+        # Bloc 3 : 32×16×16 → 64×8×8
+        self.conv3 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.pool3 = nn.MaxPool2d(2, 2)
+        # Dense head
+        self.flatten = nn.Flatten()
+        self.fc1 = nn.Linear(64 * 8 * 8, 128)
+        self.fc2 = nn.Linear(128, n_classes)
+        self.relu = nn.ReLU()
+        self.dropout = nn.Dropout(0.3)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # TODO — forward pass
-        raise NotImplementedError("TODO — implémenter forward")
+    def forward(self, x):
+        x = self.pool1(self.relu(self.conv1(x)))
+        x = self.pool2(self.relu(self.conv2(x)))
+        x = self.pool3(self.relu(self.conv3(x)))
+        x = self.flatten(x)
+        x = self.relu(self.fc1(x))
+        x = self.dropout(x)
+        x = self.fc2(x)
+        return x
 
 
 def train_one_epoch(model, loader, optimizer, criterion, device):
