@@ -20,11 +20,11 @@
 | Critère | Option A (CNN scratch) | Option B (Transfer ResNet-18) | Option C (Zero-shot CLIP) |
 |---|---|---|---|
 | **Données d'entraînement requises** | ~1500 (train) | ~1500 (train) | **0** |
-| **Données d'entraînement** | **1365(train**) | **1365 (train)** | **0** |
-| **Temps train (CPU)** | **29.1s** | **530.6s** | **0** |
-| **Latence inférence / image (CPU)** | **5972.8ms** | **56471.5ms** | ... |
-| **Mémoire modèle (Mo)** | **2.2Mo** | **44.8Mo** | ~150 (CLIP) |
-| **Accuracy attendue** | **0.276 (average train) / 0.495 (holdout)** | **0.401 (average train) / 0.489 (holdout)** | ... |
+| **Données d'entraînement** | **1470(train**) | **1470 (train)** | **1470 (train)** |
+| **Temps train (CPU)** | **308.9ms pour 16 epoch** | **5324ms pour 14 epoch** | **0** |
+| **Latence inférence / image (CPU)** | **2.1ms** | **44.5ms** | ... |
+| **Mémoire modèle (Mo)** | **2.2Mo** | **44.8Mo** (temps de save: 150 ms) | ~150 (CLIP) |
+| **Accuracy attendue** | **0.606 (holdout)** | **0.568 (holdout)** | ... |
 | **Coût € (training cloud)** | ~$0 (CPU local) | ~$0 (CPU local) | $0 |
 | **Coût € (API)** | $0 (modèle local) | $0 | $0 (modèle local) |
 | **Maintenance** | Réentraîner régulièrement | Réentraîner régulièrement | Aucune (prompts à raffiner) |
@@ -34,20 +34,16 @@
 - _Estimé_ : valeur extrapolée de sources publiques (citer)
 
 ## Sources des estimations
-
-> Pour les 2 options non implémentées, cite tes sources.
-
-- Option ... : selon ... <source URL>
-- Option ... : selon ... <source URL>
+N/A
 
 ## Comparaison qualitative
 
-| Aspect | Option A | Option B | Option C |
+| Aspect | Option A (CNN) | Option B (transfer) | Option C (CLIP) |
 |---|---|---|---|
-| **Quand préférer** | ... | ... | ... |
-| **Quand éviter** | ... | ... | ... |
-| **Domaine adapté** | ... | ... | ... |
+| **Quand préférer** | Objectif pédagogique, tâches de segmentation (ex: photo aérienne), cas métier ultra-spécifique | Quand on veut spécialiser un problème sur un modèle précis avec un niveau d'exigence élevée | Quand les images sont proches des bases d'entrainement (situation ou objet de la vie courante) |
+| **Quand éviter** | Si infrastructure ou performances limitées | Si l'option A est suffisante ou si problème de licence commerciale | Problème très spécifique et peu représentatif (c'est le cas ici) |
+| **Domaine adapté** | Classification, segmentation | Classification, segmentation, détection d'objet | Démonstrateur rapide proche d'une situation ou d'un objet de la vie courante, détection d'objet courant |
 
 ---
 
-*Comparatif produit en binôme — `<date>`.*
+*Comparatif produit en binôme — `19-08-2026`.*
