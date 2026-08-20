@@ -56,7 +56,7 @@ def load_model_from_checkpoint(
     if not checkpoint_path.exists():
         raise FileNotFoundError(f"Checkpoint introuvable: {checkpoint_path}")
 
-    checkpoint = torch.load(checkpoint_path, map_location=device)
+    checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=True)
 
     model = build_resnet_classifier(
         model_base_name=model_base_name,
