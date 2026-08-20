@@ -7,36 +7,23 @@ Mini-cours d'appui : ressources/02_Transfer_learning_essentiel.md
 Note : ResNet attend des images **3 canaux**. Si vos PNG sont en niveaux de
 gris (1 canal), répliquez le canal x3 dans les transforms (déjà géré ci-dessous).
 """
+
 from __future__ import annotations
 
 import torch
 import torch.nn as nn
 from torchvision import models, transforms
 
-from src.load_data import CLASSES
 
-
-def get_transfer_transforms(image_size: int = 224):
-    """Transforms pour ResNet — resize 224×224, 3 canaux, normalisation ImageNet.
-
-    Fourni : ce n'est pas l'objet de l'exercice.
-    """
-    return transforms.Compose([
-        transforms.Resize((image_size, image_size)),
-        transforms.Grayscale(num_output_channels=3),  # 1→3 canaux
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225]),
-    ])
-
-
-def build_resnet18_classifier(n_classes: int = len(CLASSES), freeze_backbone: bool = True):
+def build_resnet18_classifier(
+    n_classes: int = 7, freeze_backbone: bool = True
+):
     """Construit un ResNet-18 pré-entraîné avec une nouvelle tête de classification.
 
     À faire (cf. mini-cours 02) :
-      1. charger `models.resnet18` avec les poids pré-entraînés ImageNet
-      2. si `freeze_backbone`, geler tous les paramètres du backbone
-      3. remplacer la dernière couche `model.fc` par une `nn.Linear` vers `n_classes`
+    1. charger `models.resnet18` avec les poids pré-entraînés ImageNet
+    2. si `freeze_backbone`, geler tous les paramètres du backbone
+    3. remplacer la dernière couche `model.fc` par une `nn.Linear` vers `n_classes`
 
     Args:
         n_classes: nombre de classes finales.
@@ -45,9 +32,59 @@ def build_resnet18_classifier(n_classes: int = len(CLASSES), freeze_backbone: bo
     Returns:
         nn.Module prêt à l'entraînement.
     """
-    # TODO — implémenter le transfer learning
-    #        (cf. ressources/02_Transfer_learning_essentiel.md)
-    raise NotImplementedError("TODO — construire le ResNet-18 + nouvelle tête")
+    # 1. charger `models.resnet18` avec les poids pré-entraînés ImageNet
+    model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
+
+    if freeze_backbone:
+        # 2. geler tous les paramètres du backbone pour garder les couches pré-entraînées
+        for param in model.parameters():
+            param.requires_grad = False
+
+    # 3. remplacer la dernière couche `model.fc` par une `nn.Linear` vers `n_classes`
+    model.fc = nn.Linear(
+        model.fc.in_features, n_classes
+    )  
+
+    return model
+
+
+def train_one_epoch(model, loader, optimizer, criterion, device):
+    """Boucle d'entraînement d'1 epoch."""
+    model.train()
+    total_loss = 0.0
+    correct = 0
+    total = 0
+    for X, y in loader:
+        X, y = X.to(device), y.to(device)
+        optimizer.zero_grad()
+        logits = model(X)
+        loss = criterion(logits, y)
+        loss.backward()
+        optimizer.step()
+
+        total_loss += loss.item() * X.size(0)
+        preds = logits.argmax(dim=1)
+        correct += (preds == y).sum().item()
+        total += X.size(0)
+    return total_loss / total, correct / total
+
+
+def evaluate(model, loader, criterion, device):
+    """Évaluation sur un loader (val ou test)."""
+    model.eval()
+    total_loss = 0.0
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for X, y in loader:
+            X, y = X.to(device), y.to(device)
+            logits = model(X)
+            loss = criterion(logits, y)
+            total_loss += loss.item() * X.size(0)
+            preds = logits.argmax(dim=1)
+            correct += (preds == y).sum().item()
+            total += X.size(0)
+    return total_loss / total, correct / total
 
 
 # Pour l'entraînement / l'évaluation, réutilise les boucles `train_one_epoch`
