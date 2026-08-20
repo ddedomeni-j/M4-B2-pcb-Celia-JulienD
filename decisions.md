@@ -8,21 +8,21 @@
 > Une seule option implémentée jusqu'à l'inférence. Les 2 autres sont
 > estimées (mini-prototypes + sources publiques).
 
-**Choix** : ☐ Option A (CNN scratch) ☐ Option B (Transfer learning) ☐ Option C (Zero-shot CLIP)
+**Choix** : ☑ Option A (CNN scratch) ☑ Option B (Transfer learning) ☑ Option C (Zero-shot CLIP)
 
 **Argument** :
-- ...
-- ...
-- ...
+- L'option A est intéressante pour comprendre l'architecture des modèles de deep learning
+- L'option B est certainement la plus prometteuse pour obtenir un taux de détection correct
+- L'option C n'est pas très longue à tester et nous est inconnue
 
 ## 2. Répartition des tâches binôme
 
-| Tâche | Membre 1 (`<prénom1>`) | Membre 2 (`<prénom2>`) | Modalité |
+| Tâche | Membre 1 (`Célia`) | Membre 2 (`Julien D`) | Modalité |
 |---|---|---|---|
-| Setup repo + EDA | ... | ... | pair-coding MP ? |
-| Implémentation option | ... | ... | ... |
-| Comparatif économique | ... | ... | ... |
-| README + restitution | ... | ... | ... |
+| Setup repo + EDA |  |  | à 2 |
+| Implémentation option | A & B | B & C |  |
+| Comparatif économique |  |  | à 2 |
+| README + restitution |  |  | à 2 |
 
 ## 3. Coordination Discord
 
@@ -44,10 +44,8 @@
 
 ## 6. Points négociés (à expliciter en cas de désaccord)
 
-> Si vous n'êtes pas d'accord sur un choix, tracez-le honnêtement ici.
-
-- ...
+- Sans objet
 
 ---
 
-*Décisions tracées par le binôme `<prénom1>` × `<prénom2>` — `<date>`.*
+*Décisions tracées par le binôme `Célia` × `Julien D` — `19/08/2026`.*
