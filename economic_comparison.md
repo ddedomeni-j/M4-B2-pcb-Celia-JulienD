@@ -20,11 +20,11 @@
 | Critère | Option A (CNN scratch) | Option B (Transfer ResNet-18 avec freeze_backbone) | Option C (Zero-shot CLIP) |
 |---|---|---|---|
 | **Données d'entraînement requises** | ~1500 (train) | ~1500 (train) | **0** |
-| **Données d'entraînement** | **1470(train**) | **1470 (train)** | **1470 (train)** |
+| **Données d'entraînement** | **1470(train**) | **1470 (train)** | **0** |
 | **Temps train (CPU)** | **308.9ms pour 16 epoch** | **5324ms pour 14 epoch** | **0** |
-| **Latence inférence / image (CPU)** | **2.1ms** | **44.5ms (PC Célia) vs 6.38ms (PC Julien)** | ... |
-| **Mémoire modèle (Mo)** | **2.2Mo** | **44.8Mo** (temps de save: 150 ms) | ~150 (CLIP) |
-| **Accuracy attendue** | **0.606 (holdout)** | **0.568 (holdout)** | ... |
+| **Latence inférence / image (CPU)** | **2.1ms** | **44.5ms (PC Célia) vs 6.38ms (PC Julien)** | **150 ms** |
+| **Mémoire modèle (Mo)** | **2.2Mo** | **44.8Mo** (temps de save: 150 ms) | 600 Mo (openai/clip-vit-base-patch32) |
+| **Accuracy attendue** | **0.606 (holdout)** | **0.568 (holdout)** | 0.17 |
 | **Coût € (training cloud)** | ~$0 (CPU local) | ~$0 (CPU local) | $0 |
 | **Coût € (API)** | $0 (modèle local) | $0 | $0 (modèle local) |
 | **Maintenance** | Réentraîner régulièrement | Réentraîner régulièrement | Aucune (prompts à raffiner) |

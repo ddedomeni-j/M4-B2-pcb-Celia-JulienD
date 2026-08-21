@@ -1,5 +1,7 @@
 from option_c_clip import *
 
+import time
+
 CLASS_PROMPTS_1: dict[str, str] = {
     "ok": "a photograph of a clean PCB with no defects",
     "copper":"An image of a defective PCB; copper has leaked onto the circuit.",
@@ -32,7 +34,7 @@ results = evaluate_zero_shot(
     Path("data/test"),
     processor,
     model,
-    CLASS_PROMPTS_3
+    CLASS_PROMPTS_2
 )
 
 print(results)

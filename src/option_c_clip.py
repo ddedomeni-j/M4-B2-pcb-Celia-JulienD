@@ -62,8 +62,8 @@ def classify_image(image_path: Path, processor, model, prompt) -> str:
     image = cv2.imread(image_path,cv2.IMREAD_GRAYSCALE)
     _, image = cv2.threshold(image, 130, 255, cv2.THRESH_BINARY)
     image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
-    cv2.imshow("image", cv2.resize(image, None, fx = 4, fy = 4))
-    cv2.waitKey()
+    # cv2.imshow("image", cv2.resize(image, None, fx = 4, fy = 4))
+    # cv2.waitKey()
 
     texts = list(prompt.values())
 
@@ -132,12 +132,18 @@ def evaluate_zero_shot(image_dir: Path, processor, model, prompt=CLASS_PROMPTS, 
 
         for image_path in image_paths:
 
+            # Mesure
+            start = time.perf_counter()
             pred_class = classify_image(
                 image_path,
                 processor,
                 model,
                 prompt
             )
+
+            elapsed = time.perf_counter() - start
+            
+            print(f"Temps d'inférence : {elapsed*1000:.2f} ms")
 
             results[true_class][1] += 1  # total
 
